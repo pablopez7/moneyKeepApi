@@ -11,8 +11,8 @@ PaymentCtrl.create = (req, res) => {
             title: params.title,
             description: params.description,
             picture: 'imagen_para_compra',
-            lat: 6516160.654,
-            lng: 68438.19
+            lat: 95245529.20,
+            lng: 9959222.19
         })
         .then(doc => {
             res.json(doc)
@@ -44,5 +44,25 @@ PaymentCtrl.getPayment = (req, res) => {
             res.json(err)
         })
 }
+
+PaymentCtrl.updatePayment = (req, res) => {
+
+    let attributes = ['amount', 'title', 'description', 'picture', 'lat', 'lng']
+    let paymentParams = {}
+    attributes.forEach(attr => {
+        if(Object.prototype.hasOwnProperty.call(req.body, attr))
+        paymentParams[attr] = req.body[attr]
+    })
+
+    Payment.findByIdAndUpdate(req.params.id, paymentParams, { new: true })
+        .then(doc => {
+            res.json(doc)
+        })
+        .catch(err => {
+            console.log(err)
+            res.json(err)
+        })
+}
+
 
 module.exports = PaymentCtrl

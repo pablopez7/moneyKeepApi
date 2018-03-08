@@ -1,14 +1,16 @@
 'use strict'
 
 const express = require('express')
-const PayCtrl = require('../controllers/paymentCtrl')
+const PaymentCtrl = require('../controllers/paymentCtrl')
 
 const api = express.Router()
 
-api.post('/payment', PayCtrl.create)
+api.post('/payment', PaymentCtrl.create)
 
-api.get('/payments', PayCtrl.getPayments)
+api.get('/payments', PaymentCtrl.getPayments)
 
-api.get('/payment/:id', PayCtrl.getPayment)
+api.get('/payment/:id', PaymentCtrl.getPayment)
+
+api.put('/payment/:id', PaymentCtrl.updatePayment)
 
 module.exports = api
