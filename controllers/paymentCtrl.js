@@ -64,5 +64,16 @@ PaymentCtrl.updatePayment = (req, res) => {
         })
 }
 
+PaymentCtrl.deletePayment = (req, res) => {
+    Payment.findByIdAndRemove(req.params.id)
+        .then(doc => {
+            res.json({})
+        })
+        .catch(err => {
+            console.log(err)
+            res.json(err)
+        })
+}
+
 
 module.exports = PaymentCtrl

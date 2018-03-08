@@ -13,4 +13,6 @@ api.get('/payment/:id', PaymentCtrl.getPayment)
 
 api.put('/payment/:id', PaymentCtrl.updatePayment)
 
+api.delete('/payment/:id', PaymentCtrl.deletePayment)
+
 module.exports = api
