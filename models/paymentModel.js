@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 
-let TransactionSchema = new mongoose.Schema({
+let PaymentSchema = new mongoose.Schema({
     amount: Number,
     title: String,
     description: String,
@@ -12,6 +12,6 @@ let TransactionSchema = new mongoose.Schema({
     signupDate: { type: Date, default: Date.now() }
 })
 
-let Transaction = mongoose.model('Transaction', TransactionSchema)
+let Payment = mongoose.model('Payment', PaymentSchema)
 
-module.exports = Transaction
+module.exports = Payment
