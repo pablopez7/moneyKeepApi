@@ -24,10 +24,20 @@ PaymentCtrl.create = (req, res) => {
 }
 
 PaymentCtrl.getPayments = (req, res) => {
-    let params = req.body
     Payment.find({})
         .then(docs => {
             res.json(docs)
+        })
+        .catch(err => {
+            console.log(err)
+            res.json(err)
+        })
+}
+
+PaymentCtrl.getPayment = (req, res) => {
+    Payment.findById(req.params.id)
+        .then(doc => {
+            res.json(doc)
         })
         .catch(err => {
             console.log(err)
