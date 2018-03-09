@@ -23,6 +23,10 @@ PaymentCtrl.newPayment = (req, res) => {
         })
 }
 
+PaymentCtrl.getPayment = (req, res) => {
+    res.json(req.payment)
+}
+
 PaymentCtrl.getPayments = (req, res) => {
     Payment.paginate({},{ page: req.query.page || 1, limit: 2, sort: {'_id': -1 }})
         .then(docs => {
@@ -34,27 +38,19 @@ PaymentCtrl.getPayments = (req, res) => {
         })
 }
 
-PaymentCtrl.getPayment = (req, res) => {
-    Payment.findById(req.params.id)
-        .then(doc => {
-            res.json(doc)
-        })
-        .catch(err => {
-            console.log(err)
-            res.json(err)
-        })
-}
-
 PaymentCtrl.updatePayment = (req, res) => {
-
     let attributes = ['amount', 'title', 'description', 'picture', 'lat', 'lng']
+
     let paymentParams = {}
+
     attributes.forEach(attr => {
         if(Object.prototype.hasOwnProperty.call(req.body, attr))
         paymentParams[attr] = req.body[attr]
     })
 
-    Payment.findByIdAndUpdate(req.params.id, paymentParams, { new: true })
+    req.payment = Object.assign(req.payment, paymentParams)
+
+    req.payment.save()
         .then(doc => {
             res.json(doc)
         })
@@ -65,7 +61,7 @@ PaymentCtrl.updatePayment = (req, res) => {
 }
 
 PaymentCtrl.deletePayment = (req, res) => {
-    Payment.findByIdAndRemove(req.params.id)
+    req.payment.remove()
         .then(doc => {
             res.json({})
         })
@@ -74,6 +70,5 @@ PaymentCtrl.deletePayment = (req, res) => {
             res.json(err)
         })
 }
-
 
 module.exports = PaymentCtrl
