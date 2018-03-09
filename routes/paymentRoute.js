@@ -5,7 +5,7 @@ const PaymentCtrl = require('../controllers/paymentCtrl')
 
 const api = express.Router()
 
-api.post('/payment', PaymentCtrl.create)
+api.post('/payment', PaymentCtrl.newPayment)
 
 api.get('/payments', PaymentCtrl.getPayments)
 

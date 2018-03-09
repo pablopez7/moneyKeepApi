@@ -4,13 +4,13 @@ const Payment = require('../models/paymentModel')
 
 let PaymentCtrl = {}
 
-PaymentCtrl.create = (req, res) => {
+PaymentCtrl.newPayment = (req, res) => {
     let params = req.body
     Payment.create({
             amount: params.amount,
             title: params.title,
             description: params.description,
-            picture: 'imagen_para_compra',
+            picture: 'imagen_de_un_ticket_de_compra',
             lat: 95245529.20,
             lng: 9959222.19
         })
@@ -24,7 +24,7 @@ PaymentCtrl.create = (req, res) => {
 }
 
 PaymentCtrl.getPayments = (req, res) => {
-    Payment.find({})
+    Payment.paginate({},{ page: req.query.page || 1, limit: 2, sort: {'_id': -1 }})
         .then(docs => {
             res.json(docs)
         })

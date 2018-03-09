@@ -1,6 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
 
 let PaymentSchema = new mongoose.Schema({
     amount: Number,
@@ -11,6 +12,8 @@ let PaymentSchema = new mongoose.Schema({
     lng: Number,
     signupDate: { type: Date, default: Date.now() }
 })
+
+PaymentSchema.plugin(mongoosePaginate)
 
 let Payment = mongoose.model('Payment', PaymentSchema)
 
