@@ -1,12 +1,21 @@
 'use strict'
 
 const express = require('express')
+
+//Controller
 const PaymentCtrl = require('../controllers/paymentCtrl')
+
+//Middlewares
 const PaymentMidd = require('../middlewares/paymentMidd')
+const MulterMidd = require('../middlewares/uploadMidd')
 
 const api = express.Router()
 
-api.post('/payment', PaymentCtrl.newPayment)
+api.post('/payment',
+        MulterMidd.upload(),
+        PaymentCtrl.newPayment,
+        PaymentCtrl.savePicture
+    )
 
 api.get('/payments', PaymentCtrl.getPayments)
 

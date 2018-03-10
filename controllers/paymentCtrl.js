@@ -1,10 +1,11 @@
 'use strict'
 
 const Payment = require('../models/paymentModel')
+const uploader = require('../models/uploaderModel')
 
 let PaymentCtrl = {}
 
-PaymentCtrl.newPayment = (req, res) => {
+PaymentCtrl.newPayment = (req, res, next) => {
     let params = req.body
     Payment.create({
             amount: params.amount,
@@ -15,12 +16,31 @@ PaymentCtrl.newPayment = (req, res) => {
             lng: 9959222.19
         })
         .then(doc => {
-            res.json(doc)
+            req.payment = doc
+            next()
         })
         .catch(err => {
-            console.log(err)
-            res.json(err)
+            next(err)
         })
+}
+
+PaymentCtrl.savePicture = (req, res) => {
+    if (req.payment) {
+        if (req.files && req.files.avatar) {
+            const path = req.files.avatar[0].path
+            uploader(path)
+            .then(result => {
+                console.log(result);
+                res.json(req.payment)
+            })
+            .catch(err => {
+                console.log(err)
+                res.json(err)
+            })
+        }
+    } else {
+        res.status(422).json({ error: req.error || 'Could not save place' })
+    }
 }
 
 PaymentCtrl.getPayment = (req, res) => {
