@@ -11,7 +11,6 @@ PaymentCtrl.newPayment = (req, res, next) => {
             amount: params.amount,
             title: params.title,
             description: params.description,
-            picture: 'imagen_de_un_ticket_de_compra',
             lat: 95245529.20,
             lng: 9959222.19
         })
@@ -28,7 +27,8 @@ PaymentCtrl.savePicture = (req, res) => {
     if (req.payment) {
         if (req.files && req.files.avatar) {
             const path = req.files.avatar[0].path
-            uploader(path)
+            
+            req.payment.updateAvatar(path)
             .then(result => {
                 console.log(result);
                 res.json(req.payment)
